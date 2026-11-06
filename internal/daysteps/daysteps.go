@@ -26,15 +26,25 @@ func (ds *DaySteps) Parse(datastring string) (err error) {
 		return errors.New("Неверный формат строки")
 	}
 
+	if parts[0] == "" || parts[1] == "" {
+		return errors.New("Нет значений")
+	}
+
 	steps, err := strconv.Atoi(parts[0])
 	if err != nil {
 		return fmt.Errorf("Ошибка парсинга шагов: %w", err)
+	}
+	if steps <= 0 {
+		return errors.New("Шагов должно быть больше 0")
 	}
 	ds.Steps = steps
 
 	duration, err := time.ParseDuration(parts[1])
 	if err != nil {
 		return fmt.Errorf("Ошибка парсинга времени: %w", err)
+	}
+	if duration <= 0 {
+		return errors.New("Время должно быть больше 0")
 	}
 	ds.Duration = duration
 

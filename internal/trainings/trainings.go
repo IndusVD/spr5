@@ -31,12 +31,18 @@ func (t *Training) Parse(datastring string) (err error) {
 	if err != nil {
 		return fmt.Errorf("Ошибка парсинга: %w", err)
 	}
+	if steps <= 0 {
+		return errors.New("Шагов должно быть больше 0")
+	}
 	t.Steps = steps
 
 	t.TrainingType = parts[1]
 	duration, err := time.ParseDuration(parts[2])
 	if err != nil {
 		return fmt.Errorf("Ошибка парсинга: %w", err)
+	}
+	if duration <= 0 {
+		return errors.New("Время должно быть больше 0")
 	}
 	t.Duration = duration
 	return nil
